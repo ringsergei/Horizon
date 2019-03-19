@@ -11,12 +11,13 @@ class Conventer{
     public Conventer(Obstacles obstacles[], MachineGun machineGuns[]){
         this.obstacles=obstacles;
         this.machineGuns=machineGuns;
-        String [] values = {"width", "height", "x", "y"};
-        objStyles[0] = new ObjectStyle("Obstacle", values, this);
-        String [] values2 = {"x", "y", "damageRadius", "orientation"};
-        objStyles[1] = new ObjectStyle("MachineGun", values2, this);
+        String [] ObstacleValues = {"width", "height", "x", "y"};
+        objStyles[0] = new ObjectStyle("Obstacle", ObstacleValues, this);
+        String [] MachineGunValues = {"x", "y", "damageRadius", "orientation"};
+        objStyles[1] = new ObjectStyle("MachineGun",MachineGunValues, this);
+
         try{
-            FileInputStream fstream = new FileInputStream("map.txt");
+            FileInputStream fstream = new FileInputStream("maps/BasicMap.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             String strLine;
             while ((strLine = br.readLine()) != null){
@@ -37,6 +38,7 @@ class Conventer{
                     for( String value : current_objStyle.ObjectValues ){
                         if( strLine.contains(value) ){
                             strLine = strLine.replaceAll("\\s", "");
+                            strLine = strLine.substring(strLine.indexOf(":")+1, strLine.length());
                             current_objStyle.setValue(value, strLine);
                         }
                     }
@@ -71,10 +73,10 @@ class ObjectStyle{
 
     public void setValue(String value, String strLine){
         if( name=="Obstacle" ){
-            conv.obstacles[ObjectNumber].setValue(value, strLine.substring(strLine.indexOf(":")+1, strLine.length()));
+            conv.obstacles[ObjectNumber].setValue(value, strLine);
         }
         else if( name=="MachineGun" ){
-            conv.machineGuns[ObjectNumber].setValue(value, strLine.substring(strLine.indexOf(":")+1, strLine.length()));
+            conv.machineGuns[ObjectNumber].setValue(value, strLine);
         }
     }
 

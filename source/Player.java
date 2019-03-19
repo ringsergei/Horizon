@@ -21,8 +21,8 @@ class Player{
       shots[numberOfShot] = new Bullet(obstacles);
       shots[numberOfShot].isOnField = true;
       shots[numberOfShot].color = new Color(218,101,111);
-      shots[numberOfShot].movedToX = mouseX;
-      shots[numberOfShot].movedToY = mouseY;
+      shots[numberOfShot].movedToX = ((mouseX-70) + (int)(Math.random()*140));
+      shots[numberOfShot].movedToY =  ((mouseY-70) + (int)(Math.random()*140));;
       shots[numberOfShot].x = (x+19)+25*Math.cos(Math.toRadians(rotation+90));
       shots[numberOfShot].y = (y+19)+25*Math.sin(Math.toRadians(rotation+90));
       shots[numberOfShot].SetVariables();
@@ -47,7 +47,7 @@ class Player{
     });
 
 
-    Timer strikeTimer = new Timer(200, new ActionListener() {
+    Timer strikeTimer = new Timer(100, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
             if( numberOfShot<30 )createBullet();
       }
@@ -61,17 +61,22 @@ class Player{
                   for( MachineGun gun: machineGuns ){
                     if( gun!=null ){
                         if( gun.hp!=0 ){
-                        if(shot.x <= gun.x+40 && shot.x >= gun.x && shot.y >= gun.y && shot.y <= gun.y+40){
-                            gun.hp -= 1;
-                            shot.isOnField = false;
-                            shot.isHit = false;
-                        // shot.sound.obsSound("villian");
+                            if(shot.x <= gun.x+40 && shot.x >= gun.x && shot.y >= gun.y && shot.y <= gun.y+40){
+                                gun.hp -= 1;
+                                shot.isOnField = false;
+                                shot.isHit = false;
+                            // shot.sound.obsSound("villian");
+                            }
+                            if( gun.hp==0 ){
+                                gun.snooping.stop(); 
+                                gun.timerStrike.stop();
+                                gun.regeneration.start();
+                            }
                         }
-                        if( gun.hp==0 ){
-                            gun.snooping.stop(); 
-                            gun.timerStrike.stop();
-                            gun.regeneration.start();
-                        }
+                        else if( gun.hp==0 ){
+                            if(shot.x <= gun.x+40 && shot.x >= gun.x && shot.y >= gun.y && shot.y <= gun.y+40){
+                                shot.isOnField=false;
+                            }
                         }
                     }
                   }

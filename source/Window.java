@@ -140,26 +140,18 @@ class Field extends JPanel{
     public void paintComponent(Graphics gr) {
         super.paintComponent(gr);
         gr.drawImage(background, 0, 0, 1920, 1080, null);
-        try{
-            for( Bullet shot : player.shots){
-                shot.draw(gr);
-            }
-        }catch(Exception exp){}
-        try{
-            for( MachineGun machineGun : machineGuns ){
-                machineGun.draw(gr);
-            }
-        }catch(Exception exp){}
-        try{
-            for( Obstacles obstacle : obstacles ){
-                obstacle.draw(gr);
-            }
-        }catch(Exception exp){}
-        try{
-            for( MachineGun machineGun : machineGuns ){
-                machineGun.drawPanel(gr);
-            }
-        }catch(Exception exp){}
+        for( Bullet shot : player.shots){
+            if( shot!=null )shot.draw(gr);
+        }
+        for( MachineGun machineGun : machineGuns ){
+            if( machineGun!=null )machineGun.draw(gr);
+        }
+        for( Obstacles obstacle : obstacles ){
+            if( obstacle!=null )obstacle.draw(gr);
+        }
+        for( MachineGun machineGun : machineGuns ){
+            if( machineGun!=null )machineGun.drawPanel(gr);
+        }
         if( player.heart!=null ){
             player.heart.draw(gr);
         }
