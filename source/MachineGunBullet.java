@@ -5,9 +5,7 @@ import java.awt.geom.AffineTransform;
 import javax.imageio.*;
 import java.io.*;
 
-class Bullet{
-    public Gun gun;
-    public int bull_d;
+class MachineGunBullet{
     public double x, y;
     public double movedToX, movedToY, progressiveX, progressiveY;
     public boolean isOnField=false, isHit=true;
@@ -15,9 +13,8 @@ class Bullet{
     public Color color;
     public Sound sound = new Sound();
 
-    public Bullet(Obstacles obstacles[], Gun gun){
+    public MachineGunBullet(Obstacles obstacles[]){
         this.obstacles = obstacles;
-        this.gun = gun;
         //sound.shotSound();
     }
 
@@ -52,8 +49,8 @@ class Bullet{
                 }
             }
         }catch(Exception exp){}
-        y+=progressiveY*gun.ShotSpeed;
-        x+=progressiveX*gun.ShotSpeed;
+        y+=progressiveY*5;
+        x+=progressiveX*5;
       }
 
     });
@@ -66,7 +63,7 @@ class Bullet{
         }
         else if(isOnField==true){
             g.setColor(color);
-            g.fillOval((int)x, (int)y, bull_d, bull_d);
+            g.fillOval((int)x, (int)y, 12, 12);
         }
     }
 

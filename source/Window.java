@@ -32,11 +32,11 @@ class Field extends JPanel{
     public class mouseEventsHandler implements MouseListener {
 
         public void mousePressed(MouseEvent e) {
-            player.strikeTimer.start();
+            player.gun.strikeTimer.start();
         }
 
         public void mouseReleased(MouseEvent e) {
-            player.strikeTimer.stop();
+            player.gun.strikeTimer.stop();
         }
 
         public void mouseEntered(MouseEvent e) {
@@ -50,8 +50,7 @@ class Field extends JPanel{
         }
 
         public void mouseClicked(MouseEvent e) {
-            if( player.numberOfShot<30 )player.createBullet();
-
+            //player.gun.Strike();
         }
     }
 
@@ -140,9 +139,6 @@ class Field extends JPanel{
     public void paintComponent(Graphics gr) {
         super.paintComponent(gr);
         gr.drawImage(background, 0, 0, 1920, 1080, null);
-        for( Bullet shot : player.shots){
-            if( shot!=null )shot.draw(gr);
-        }
         for( MachineGun machineGun : machineGuns ){
             if( machineGun!=null )machineGun.draw(gr);
         }

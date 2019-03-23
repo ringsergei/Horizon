@@ -10,7 +10,7 @@ class MachineGun{
     public String orientation;
     public double deltaX, deltaY, rotation;
     public Player player;
-    public Bullet[] shots = new Bullet[100];
+    public MachineGunBullet[] shots = new MachineGunBullet[100];
     public Obstacles[] obstacles;
     public int numberOfHit=19;
 
@@ -25,7 +25,7 @@ class MachineGun{
 
     Timer checkHits = new Timer(1, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        for( Bullet shot: shots ){
+        for( MachineGunBullet shot: shots ){
           if( shot != null ){
             if( shot.isHit ){
                 if( player.hp!=0 ){
@@ -45,7 +45,7 @@ class MachineGun{
     Timer timerStrike = new Timer(250, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
           for( int i = 0; i <=1; i++ ){
-              shots[numberOfShot+i] = new Bullet(obstacles);
+              shots[numberOfShot+i] = new MachineGunBullet(obstacles);
               shots[numberOfShot+i].isOnField = true;
               shots[numberOfShot+i].color = new Color(69,107,72);
               if( orientation.equals("vertical") ){

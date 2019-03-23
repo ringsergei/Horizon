@@ -7,30 +7,18 @@ import java.io.*;
 
 class Player{
 
-    public int x=1920/2-25, y=1080/2-25, degrees=0, numberOfShot=0, hp=20;
+    public int x=1920/2-25, y=1080/2-25, degrees=0, hp=20;
     public boolean move_right, move_left, move_top, move_down;
     double deltaX, deltaY, rotation;
     int mouseX=0, mouseY=0;
-    public Bullet[] shots = new Bullet[30];
     public Obstacles[] obstacles;
     public MachineGun[] machineGuns;
     public Hearts heart;
     public Ammunition ammunition;
+    public Gun gun;
+    public Gun tommy_gun = new Gun(5, 30, 100, 50, 1, "tommy_gun.png", new Color(218,101,111), 12, this);
+    public Gun sniper_rifle = new Gun(10, 5, 5000, 0, 5, "sniper_rifle.png", new Color(250,169,17), 8, this);
 
-    public void createBullet(){
-      shots[numberOfShot] = new Bullet(obstacles);
-      shots[numberOfShot].isOnField = true;
-      shots[numberOfShot].color = new Color(218,101,111);
-      shots[numberOfShot].movedToX = ((mouseX-70) + (int)(Math.random()*140));
-      shots[numberOfShot].movedToY =  ((mouseY-70) + (int)(Math.random()*140));;
-      shots[numberOfShot].x = (x+19)+25*Math.cos(Math.toRadians(rotation+90));
-      shots[numberOfShot].y = (y+19)+25*Math.sin(Math.toRadians(rotation+90));
-      shots[numberOfShot].SetVariables();
-      shots[numberOfShot].timerUpdate.start();
-      numberOfShot++;
-    }
-
-    
     Timer thingsTimer = new Timer(3000, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if( hp<20 ){
@@ -38,7 +26,7 @@ class Player{
                   heart = new Hearts(obstacles);
                 }
             } 
-            if( numberOfShot>0 ){
+            if( gun.numberOfShot>0 ){
                 if( ammunition==null ){
                   ammunition = new Ammunition(obstacles);
                 }
@@ -47,34 +35,28 @@ class Player{
     });
 
 
-    Timer strikeTimer = new Timer(100, new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-            if( numberOfShot<30 )createBullet();
-      }
-    });
-
     Timer checkHits = new Timer(1, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          for( Bullet shot: shots ){
+          for( Bullet shot: gun.shots ){
             if( shot != null ){
               if( shot.isHit ){
-                  for( MachineGun gun: machineGuns ){
-                    if( gun!=null ){
-                        if( gun.hp!=0 ){
-                            if(shot.x <= gun.x+40 && shot.x >= gun.x && shot.y >= gun.y && shot.y <= gun.y+40){
-                                gun.hp -= 1;
+                  for( MachineGun machineGun: machineGuns ){
+                    if( machineGun!=null ){
+                        if( machineGun.hp!=0 ){
+                            if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
+                                machineGun.hp -= gun.damage;
                                 shot.isOnField = false;
                                 shot.isHit = false;
                             // shot.sound.obsSound("villian");
                             }
-                            if( gun.hp==0 ){
-                                gun.snooping.stop(); 
-                                gun.timerStrike.stop();
-                                gun.regeneration.start();
+                            if( machineGun.hp==0 ){
+                                machineGun.snooping.stop(); 
+                                machineGun.timerStrike.stop();
+                                machineGun.regeneration.start();
                             }
                         }
-                        else if( gun.hp==0 ){
-                            if(shot.x <= gun.x+40 && shot.x >= gun.x && shot.y >= gun.y && shot.y <= gun.y+40){
+                        else if( machineGun.hp==0 ){
+                            if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
                                 shot.isOnField=false;
                             }
                         }
@@ -132,9 +114,9 @@ class Player{
             }
             if( ammunition!=null ){
                 if( (x+50)>=ammunition.x && x<(ammunition.x+50) && (y+50)>=ammunition.y && y<(ammunition.y+50)  ){
-                    if( numberOfShot>2 ){
-                      numberOfShot-=3;
-                    }else numberOfShot-=1;
+                    if( gun.numberOfShot>2 ){
+                      gun.numberOfShot-=3;
+                    }else gun.numberOfShot-=1;
                     ammunition=null;
                 }
             }
@@ -156,6 +138,7 @@ class Player{
 		});
 
     public Player(Obstacles obstacles[], MachineGun machineGuns[]){
+        gun = tommy_gun;
         this.obstacles = obstacles;
         this.machineGuns = machineGuns;
         checkHits.start();
@@ -173,11 +156,15 @@ class Player{
         }
         gr.setColor(new Color(171,178,191));
         gr.setFont(new Font("Arial", Font.BOLD, 50));
-        gr.drawString((30-numberOfShot)+"", 40, 1010);
+        gun.drawImage(gr);
+        gr.drawString((gun.mag-gun.numberOfShot)+"", 270, 1010);
     }
 
 
     public void draw(Graphics g){
+      for( Bullet shot : gun.shots){
+        if( shot!=null )shot.draw(g);
+      }
       Graphics2D g2d = (Graphics2D)g;
       AffineTransform old = g2d.getTransform();
       g2d.setColor(Color.WHITE);
