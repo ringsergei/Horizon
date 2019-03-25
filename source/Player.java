@@ -37,14 +37,44 @@ class Player{
 
     Timer checkHits = new Timer(1, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          for( Bullet shot: gun.shots ){
+          for( Bullet shot: tommy_gun.shots ){
+            if( shot != null ){
+              if( shot.isHit ){
+                  for( MachineGun machineGun: machineGuns ){
+                    if( machineGun!=null ){
+                        if( machineGun.hp>0 ){
+                            if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
+                                if( tommy_gun.damage>machineGun.hp )machineGun.hp=0;
+                                else machineGun.hp -= tommy_gun.damage;
+                                shot.isOnField = false;
+                                shot.isHit = false;
+                            // shot.sound.obsSound("villian");
+                            }
+                            if( machineGun.hp==0 ){
+                                machineGun.snooping.stop(); 
+                                machineGun.timerStrike.stop();
+                                machineGun.regeneration.start();
+                            }
+                        }
+                        else if( machineGun.hp==0 ){
+                            if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
+                                shot.isOnField=false;
+                            }
+                        }
+                    }
+                  }
+              }
+            }
+          }
+          for( Bullet shot: sniper_rifle.shots ){
             if( shot != null ){
               if( shot.isHit ){
                   for( MachineGun machineGun: machineGuns ){
                     if( machineGun!=null ){
                         if( machineGun.hp!=0 ){
                             if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
-                                machineGun.hp -= gun.damage;
+                                if( sniper_rifle.damage>machineGun.hp )machineGun.hp=0;
+                                else machineGun.hp -= sniper_rifle.damage;
                                 shot.isOnField = false;
                                 shot.isHit = false;
                             // shot.sound.obsSound("villian");
@@ -157,12 +187,15 @@ class Player{
         gr.setColor(new Color(171,178,191));
         gr.setFont(new Font("Arial", Font.BOLD, 50));
         gun.drawImage(gr);
-        gr.drawString((gun.mag-gun.numberOfShot)+"", 270, 1010);
+        gr.drawString((gun.mag-gun.numberOfShot)+"", gun.img.getWidth(null)+90, 1010);
     }
 
 
     public void draw(Graphics g){
-      for( Bullet shot : gun.shots){
+      for( Bullet shot : tommy_gun.shots){
+        if( shot!=null )shot.draw(g);
+      }
+      for( Bullet shot : sniper_rifle.shots){
         if( shot!=null )shot.draw(g);
       }
       Graphics2D g2d = (Graphics2D)g;

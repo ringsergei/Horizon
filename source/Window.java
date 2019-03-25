@@ -72,6 +72,7 @@ class Field extends JPanel{
     public class myKeyListener implements KeyListener {
         public void keyPressed(KeyEvent e){
             int key_ = e.getKeyCode();
+            //System.out.println(key_);
             if( key_==68 ){
                 player.move_right = true;
             }
@@ -83,6 +84,12 @@ class Field extends JPanel{
             }
             if( key_==83 ){
                 player.move_down = true;
+            }
+            if( key_==49  ){
+                player.gun = player.tommy_gun;
+            }
+            if( key_==50 ){
+                player.gun = player.sniper_rifle;
             }
         }
         public void keyReleased(KeyEvent e) {
@@ -154,8 +161,8 @@ class Field extends JPanel{
         if( player.ammunition!=null ){
             player.ammunition.draw(gr);
         }
-        player.drawPanel(gr);
         player.draw(gr);
+        player.drawPanel(gr);
         player.timerUpdate.start();
 
     }

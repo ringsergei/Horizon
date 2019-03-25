@@ -7,7 +7,7 @@ import java.io.*;
 
 class Bullet{
     public Gun gun;
-    public int bull_d;
+    public int bull_d, speed;
     public double x, y;
     public double movedToX, movedToY, progressiveX, progressiveY;
     public boolean isOnField=false, isHit=true;
@@ -15,9 +15,8 @@ class Bullet{
     public Color color;
     public Sound sound = new Sound();
 
-    public Bullet(Obstacles obstacles[], Gun gun){
+    public Bullet(Obstacles obstacles[]){
         this.obstacles = obstacles;
-        this.gun = gun;
         //sound.shotSound();
     }
 
@@ -52,8 +51,8 @@ class Bullet{
                 }
             }
         }catch(Exception exp){}
-        y+=progressiveY*gun.ShotSpeed;
-        x+=progressiveX*gun.ShotSpeed;
+        y+=progressiveY*speed;
+        x+=progressiveX*speed;
       }
 
     });

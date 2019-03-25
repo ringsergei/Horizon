@@ -22,7 +22,7 @@ class Gun{
 
     public void Strike(){
         if( numberOfShot<mag){
-            shots[numberOfShot] = new Bullet(player.obstacles, this);
+            shots[numberOfShot] = new Bullet(player.obstacles);
             shots[numberOfShot].isOnField = true;
             shots[numberOfShot].color = shot_color;
             shots[numberOfShot].movedToX = ((player.mouseX-scatter) + (int)(Math.random()*(scatter*2)));
@@ -30,6 +30,7 @@ class Gun{
             shots[numberOfShot].x = (player.x+19)+25*Math.cos(Math.toRadians(player.rotation+90));
             shots[numberOfShot].y = (player.y+19)+25*Math.sin(Math.toRadians(player.rotation+90));
             shots[numberOfShot].bull_d = bull_d;
+            shots[numberOfShot].speed = ShotSpeed;
             shots[numberOfShot].SetVariables();
             shots[numberOfShot].timerUpdate.start();
             numberOfShot++;
@@ -55,7 +56,7 @@ class Gun{
     }
 
     public void drawImage(Graphics g){
-        g.drawImage(img, 240-img.getWidth(null), 980, img.getWidth(null), img.getHeight(null), null);
+        g.drawImage(img, 40, 980, img.getWidth(null), img.getHeight(null), null);
     }
 
 }
