@@ -7,17 +7,19 @@ class Conventer{
     private ObjectStyle current_objStyle;
     public Obstacles[] obstacles;
     public MachineGun[] machineGuns;
+    public String mapName;
 
-    public Conventer(Obstacles obstacles[], MachineGun machineGuns[]){
+    public Conventer(Obstacles obstacles[], MachineGun machineGuns[], String mapName){
         this.obstacles=obstacles;
         this.machineGuns=machineGuns;
+        this.mapName = mapName;
         String [] ObstacleValues = {"width", "height", "x", "y"};
         objStyles[0] = new ObjectStyle("Obstacle", ObstacleValues, this);
         String [] MachineGunValues = {"x", "y", "damageRadius", "orientation"};
         objStyles[1] = new ObjectStyle("MachineGun",MachineGunValues, this);
 
         try{
-            FileInputStream fstream = new FileInputStream("maps/BasicMap.txt");
+            FileInputStream fstream = new FileInputStream("maps/" + mapName + ".txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             String strLine;
             while ((strLine = br.readLine()) != null){

@@ -6,13 +6,12 @@ import java.io.*;
 
 
 class Window extends JFrame{
-
-
-    public Window(){
+    
+    public Window(String mapName){
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Field gameField = new Field();
+        Field gameField = new Field(mapName);
 		    Container container = getContentPane();
 		    container.add(gameField);
         setVisible(true);
@@ -116,9 +115,9 @@ class Field extends JPanel{
         }
     });
 
-    public Field(){
+    public Field(String mapName){
        // audio.mainTheme();
-        createMap();
+        createMap(mapName);
         player = new Player(obstacles, machineGuns);
         for( MachineGun gun : machineGuns ){
             if( gun!=null ){
@@ -139,8 +138,8 @@ class Field extends JPanel{
         setFocusable(true);
     }
 
-    public void createMap(){
-        Conventer MapsConventer = new Conventer(obstacles, machineGuns);
+    public void createMap(String mapName){
+        Conventer MapsConventer = new Conventer(obstacles, machineGuns, mapName);
     }
 
     public void paintComponent(Graphics gr) {

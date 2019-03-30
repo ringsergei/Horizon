@@ -16,8 +16,8 @@ class Player{
     public Hearts heart;
     public Ammunition ammunition;
     public Gun gun;
-    public Gun tommy_gun = new Gun(5, 30, 100, 50, 1, "tommy_gun.png", new Color(218,101,111), 12, this);
-    public Gun sniper_rifle = new Gun(10, 5, 5000, 0, 5, "sniper_rifle.png", new Color(250,169,17), 8, this);
+    public Gun tommy_gun = new Gun(5, 30, 100, 50, 1, "tommy_gun.png", "Yellowblot.png", new Color(218,101,111), 12, this);
+    public Gun sniper_rifle = new Gun(10, 5, 5000, 0, 5, "sniper_rifle.png", "Yellowblot.png", new Color(250,169,17), 8, this);
 
     Timer thingsTimer = new Timer(3000, new ActionListener() {
         public void actionPerformed(ActionEvent e) {

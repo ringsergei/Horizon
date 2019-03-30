@@ -17,23 +17,10 @@
       width:30
       height:1080  
      }
-     MachineGun
-     {
-      x:40
-      y:200
-      damageRadius:300
-      orientation:vertical
-     }
      Obstacle
      {
       x:0
       y:1050
       width:1920
       height:30
-     }
-     {
-      x:1000
-      y:700
-      width:300
-      height:300
      }
