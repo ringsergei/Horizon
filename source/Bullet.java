@@ -29,9 +29,15 @@ class Bullet{
         for( Obstacles obstacle : obstacles ){
             if( obstacle!=null ){
                 if( isHit==true ){
-                    if( (int)x==obstacle.x && y>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
+                    if( (int)x+bull_d==obstacle.x && y>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
                         
-                        isOnField=false;
+                        isOnField=false;                                               
+                        if( y<obstacle.y ){
+                            y=obstacle.y+30;
+                        }
+                        else if( y+30>obstacle.y+obstacle.height ){
+                            y=obstacle.y+obstacle.height-30;
+                        }
                         blots[numberOfBlot] = new Blot(blotImg);
                         blots[numberOfBlot].x = obstacle.x;
                         blots[numberOfBlot].y = (int)y;
@@ -43,6 +49,12 @@ class Bullet{
                     }
                     else if( (int)x==(obstacle.x+obstacle.width) && y>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
                         isOnField=false;
+                        if( y<obstacle.y ){
+                            y=obstacle.y+30;
+                        }
+                        else if( y+30>obstacle.y+obstacle.height ){
+                            y=obstacle.y+obstacle.height-30;
+                        }
                         blots[numberOfBlot] = new Blot(blotImg);
                         blots[numberOfBlot].x = (obstacle.x+obstacle.width-16);
                         blots[numberOfBlot].y = (int)y;
@@ -52,8 +64,14 @@ class Bullet{
                         // sound.obsSound("wall");*/
                         timerUpdate.stop();
                     }
-                    else if( (int)y==obstacle.y && x>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
+                    else if( (int)y+bull_d==obstacle.y && x>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
                         isOnField=false;
+                        if( x<obstacle.x ){
+                            x=obstacle.x+30;
+                        }
+                        else if( x+30>obstacle.x+obstacle.width ){
+                            x=obstacle.x+obstacle.width-30;
+                        }
                         blots[numberOfBlot] = new Blot(blotImg);
                         blots[numberOfBlot].x = (int)x;
                         blots[numberOfBlot].y = obstacle.y-7;
@@ -65,6 +83,12 @@ class Bullet{
                     }
                     else if( (int)y==(obstacle.y + obstacle.height) && x>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
                         isOnField=false;
+                        if( x<obstacle.x ){
+                            x=obstacle.x+16;
+                        }
+                        else if( x+30>obstacle.x+obstacle.width ){
+                            x=obstacle.x+obstacle.width-16;
+                        }
                         blots[numberOfBlot] = new Blot(blotImg);
                         blots[numberOfBlot].x = (int)x;
                         blots[numberOfBlot].y = (obstacle.y+obstacle.height-23);

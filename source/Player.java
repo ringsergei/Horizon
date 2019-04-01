@@ -146,7 +146,7 @@ class Player{
                 if( (x+50)>=ammunition.x && x<(ammunition.x+50) && (y+50)>=ammunition.y && y<(ammunition.y+50)  ){
                     if( gun.numberOfShot>2 ){
                       gun.numberOfShot-=3;
-                    }else gun.numberOfShot-=1;
+                    }else if( gun.numberOfShot>0 ) gun.numberOfShot-=1;
                     ammunition=null;
                 }
             }
