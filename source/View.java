@@ -12,12 +12,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.FlowLayout;
 import java.io.File;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.util.ArrayList;
 
 public class View extends JFrame {
 
@@ -25,13 +30,21 @@ public class View extends JFrame {
 	public JButton[] btns = new JButton[30];
 	public int disposeY, disposeX;
 	public File maps_folder = new File("maps");
+	public File music_folder = new File("music");
+	public Sound audio = new Sound();
+	ArrayList<String> musicList = new ArrayList<String>();
 
 	public void btnClick(JButton btn){
 		Main.CreateGameWindow(btn.getText());
 	}
 
 	public View() {
+		audio.playSound("mainTheme", "Hardware");
 		String[] maps = maps_folder.list();
+		String[] music = music_folder.list();
+		for( String track : music ){
+			musicList.add(track.replaceAll(".wav", ""));
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setResizable(false);
@@ -53,7 +66,13 @@ public class View extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JSlider slider = new JSlider();
+		JSlider slider = new JSlider(-80, 6, 0);
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent event) {
+			  int value = slider.getValue();
+			  audio.control.setValue((float)value);
+			}
+		});
 		slider.setBackground(new Color(41,44,43));
 		slider.setBounds(265, 25, 200, 23);
 		slider.setForeground(Color.WHITE);
@@ -62,18 +81,33 @@ public class View extends JFrame {
 		lblMusic.setForeground(Color.WHITE);
 		lblMusic.setFont(new Font("LetterOMatic!", Font.PLAIN, 20));
 		lblMusic.setBounds(26, 25, 77, 23);
+
+		JLabel lblMusicList = new JLabel("MusicList");
+		lblMusicList.setForeground(Color.WHITE);
+		lblMusicList.setFont(new Font("LetterOMatic!", Font.PLAIN, 20));
+		lblMusicList.setBounds(26, 100, 200, 23);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.addActionListener (new ActionListener () {
+				public void actionPerformed(ActionEvent e) {
+						audio.clip.close();
+						audio.playSound("mainTheme", "" + comboBox.getSelectedItem());
+				}
+		});
+		comboBox.setModel(new DefaultComboBoxModel(musicList.toArray()));
+		comboBox.setBounds(270, 100, 200, 20);
         
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(834, 244, 696, 624);
-        contentPane.add(scrollPane);
-		
-        JPanel panel_1 = new JPanel();
-        scrollPane.setViewportView(panel_1);
-        panel_1.setBackground(new Color(41,44,43));
-        panel_1.setPreferredSize(new Dimension(696, 620));
-        panel_1.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBounds(834, 244, 696, 624);
+		contentPane.add(scrollPane);
+
+		JPanel panel_1 = new JPanel();
+		scrollPane.setViewportView(panel_1);
+		panel_1.setBackground(new Color(41,44,43));
+		panel_1.setPreferredSize(new Dimension(696, 620));
+		panel_1.setLayout(null);
  
 		JButton btnNewButton = new JButton("play");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -124,6 +158,8 @@ public class View extends JFrame {
 				panel_1.setPreferredSize(new Dimension(696, 620));
 				panel_1.add(slider);
 				panel_1.add(lblMusic);
+				panel_1.add(lblMusicList);
+				panel_1.add(comboBox);
 				panel_1.repaint();
 				scrollPane.revalidate();
 			}
