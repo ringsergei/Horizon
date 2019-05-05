@@ -6,8 +6,8 @@ public class Main{
           view.setVisible(true);
          
       }
-      public static void CreateGameWindow(String mapName){
-            Window window = new Window(mapName);
-            view.dispose();
+      public static void CreateGameWindow(String mapName, DataBaseConnector connector){
+            Window window = new Window(mapName, connector);
+            view.setVisible(false);
       }
 }

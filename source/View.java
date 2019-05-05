@@ -29,18 +29,19 @@ public class View extends JFrame {
 	private JPanel contentPane;
 	public JButton[] btns = new JButton[30];
 	public int disposeY, disposeX;
-	public File maps_folder = new File("maps");
 	public File music_folder = new File("music");
 	public Sound audio = new Sound();
+	public DataBaseConnector connector;
 	ArrayList<String> musicList = new ArrayList<String>();
 
 	public void btnClick(JButton btn){
-		Main.CreateGameWindow(btn.getText());
+		Main.CreateGameWindow(btn.getText(), connector);
 	}
 
 	public View() {
 		audio.playSound("mainTheme", "Hardware");
-		String[] maps = maps_folder.list();
+		connector = new DataBaseConnector();
+		String [] maps = connector.getAllMaps();
 		String[] music = music_folder.list();
 		for( String track : music ){
 			musicList.add(track.replaceAll(".wav", ""));
@@ -66,7 +67,7 @@ public class View extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JSlider slider = new JSlider(-80, 6, 0);
+		JSlider slider = new JSlider(-80, 6, -10);
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent event) {
 			  int value = slider.getValue();
@@ -123,7 +124,7 @@ public class View extends JFrame {
 					btns[i].setBackground(new Color(41,44,43));
 					btns[i].setBounds(15+disposeX, 27+disposeY, 151, 119);
 					btns[i].setPreferredSize(new Dimension(151, 119));
-					btns[i].setLabel(maps[i].replaceAll(".txt", ""));
+					btns[i].setLabel(maps[i]);
 					btns[i].setForeground(Color.WHITE);
 					btns[i].setFont(new Font("LetterOMatic!", Font.PLAIN, 20));
 					btns[i].addActionListener(new ActionListener() {

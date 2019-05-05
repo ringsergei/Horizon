@@ -7,9 +7,9 @@ class Conventer{
     private ObjectStyle current_objStyle;
     public Obstacles[] obstacles;
     public MachineGun[] machineGuns;
-    public String mapName;
+    public String mapName, mapCode;
 
-    public Conventer(Obstacles obstacles[], MachineGun machineGuns[], String mapName){
+    public Conventer(Obstacles obstacles[], MachineGun machineGuns[], String mapName, DataBaseConnector connector){
         this.obstacles=obstacles;
         this.machineGuns=machineGuns;
         this.mapName = mapName;
@@ -19,8 +19,10 @@ class Conventer{
         objStyles[1] = new ObjectStyle("MachineGun",MachineGunValues, this);
 
         try{
-            FileInputStream fstream = new FileInputStream("maps/" + mapName + ".txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            String code = connector.getMap(mapName).code;
+            connector.getAllMaps();
+            //connector.connectClose();
+            BufferedReader br = new BufferedReader(new StringReader(code));
             String strLine;
             while ((strLine = br.readLine()) != null){
                 for( ObjectStyle objStyle : objStyles ){

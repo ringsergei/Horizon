@@ -4,13 +4,14 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import javax.imageio.*;
 import java.io.*;
+import java.awt.image.BufferedImage;
 
 class Blot{
     public int x, y;
-    public Image blotImg;
+    public BufferedImage blotImg;
     double rotation;
 
-    public Blot(Image blotImg){
+    public Blot(BufferedImage blotImg){
         this.blotImg = blotImg;
     }
 

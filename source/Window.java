@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
@@ -7,11 +8,11 @@ import java.io.*;
 
 class Window extends JFrame{
     
-    public Window(String mapName){
+    public Window(String mapName, DataBaseConnector connector){
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Field gameField = new Field(mapName);
+        Field gameField = new Field(mapName, connector);
 		    Container container = getContentPane();
 		    container.add(gameField);
         setVisible(true);
@@ -24,8 +25,9 @@ class Field extends JPanel{
 
     public Obstacles[] obstacles = new Obstacles[30];
     public MachineGun[] machineGuns = new MachineGun[2];
+    public DataBaseConnector connector;
     public Player player;
-    Image background;
+    BufferedImage background;
 
 
     public class mouseEventsHandler implements MouseListener {
@@ -115,10 +117,13 @@ class Field extends JPanel{
         }
     });
 
-    public Field(String mapName){
+    public Field(String mapName, DataBaseConnector connector){
        // audio.mainTheme();
+        this.connector = connector;
         createMap(mapName);
-        player = new Player(obstacles, machineGuns);
+        try{
+            player = new Player(obstacles, machineGuns, connector);
+        }catch(Exception exp){System.out.println(exp);}
         for( MachineGun gun : machineGuns ){
             if( gun!=null ){
                 gun.obstacles = obstacles;
@@ -128,9 +133,11 @@ class Field extends JPanel{
             }
         }
         try{
-          background = ImageIO.read(new File("images//background2.png"));
+            java.sql.Blob blobImage = connector.getImage("background2").image;
+            InputStream in = blobImage.getBinaryStream(); 
+            background = ImageIO.read(in);
         }
-        catch(IOException ex){}
+        catch(Exception ex){System.out.println(ex);}
         repaint_.start();
         addKeyListener(new myKeyListener());
         addMouseListener(new mouseEventsHandler());
@@ -139,12 +146,12 @@ class Field extends JPanel{
     }
 
     public void createMap(String mapName){
-        Conventer MapsConventer = new Conventer(obstacles, machineGuns, mapName);
+        Conventer MapsConventer = new Conventer(obstacles, machineGuns, mapName, connector);
     }
 
     public void paintComponent(Graphics gr) {
         super.paintComponent(gr);
-        gr.drawImage(background, 0, 0, 1920, 1080, null);
+        gr.drawImage(background, 0, 0, background.getWidth(null), background.getHeight(null), null);
         for( MachineGun machineGun : machineGuns ){
             if( machineGun!=null )machineGun.draw(gr);
         }

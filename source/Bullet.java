@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import javax.imageio.*;
 import java.io.*;
+import java.awt.image.BufferedImage;
 
 class Bullet{
     public Gun gun;
@@ -15,7 +16,7 @@ class Bullet{
     public Obstacles[] obstacles;
     public Player player;
     public Blot[] blots = new Blot[100];
-    public Image blotImg;
+    public BufferedImage blotImg;
     public Color color;
     public Sound sound = new Sound();
 
@@ -29,7 +30,7 @@ class Bullet{
         for( Obstacles obstacle : obstacles ){
             if( obstacle!=null ){
                 if( isHit==true ){
-                    if( (int)x+bull_d==obstacle.x && y>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
+                    if( (int)x+bull_d==obstacle.x && y+bull_d>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
                         
                         isOnField=false;                                               
                         if( y<obstacle.y ){
@@ -47,7 +48,7 @@ class Bullet{
                         // sound.obsSound("wall");*/
                         timerUpdate.stop();
                     }
-                    else if( (int)x==(obstacle.x+obstacle.width) && y>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
+                    else if( (int)x==(obstacle.x+obstacle.width) && y+bull_d>=obstacle.y && y<= (obstacle.y+obstacle.height) ){
                         isOnField=false;
                         if( y<obstacle.y ){
                             y=obstacle.y+30;
@@ -64,7 +65,7 @@ class Bullet{
                         // sound.obsSound("wall");*/
                         timerUpdate.stop();
                     }
-                    else if( (int)y+bull_d==obstacle.y && x>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
+                    else if( (int)y+bull_d==obstacle.y && x+bull_d>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
                         isOnField=false;
                         if( x<obstacle.x ){
                             x=obstacle.x+30;
@@ -81,7 +82,7 @@ class Bullet{
                         // sound.obsSound("wall");*/
                         timerUpdate.stop(); 
                     }
-                    else if( (int)y==(obstacle.y + obstacle.height) && x>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
+                    else if( (int)y==(obstacle.y + obstacle.height) && x+bull_d>=obstacle.x && x<=(obstacle.x+obstacle.width) ){
                         isOnField=false;
                         if( x<obstacle.x ){
                             x=obstacle.x+16;

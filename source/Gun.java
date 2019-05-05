@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import javax.imageio.*;
 import java.io.*;
+import java.awt.image.BufferedImage;
 
 
 class Gun{
@@ -11,7 +12,7 @@ class Gun{
     public int ShotSpeed, numberOfShot=0, scatter, damage, mag, bull_d;
     public Color shot_color;
     public Bullet[] shots;
-    public Image img, blotImg;
+    public BufferedImage img, blotImg;
 
     Timer strikeTimer = new Timer(0, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -51,9 +52,17 @@ class Gun{
         this.shot_color = shot_color;
         this.bull_d = bull_d;
         try{
-            img = ImageIO.read(new File("images//" + img_name));
-            blotImg = ImageIO.read(new File("images//" + blot_img_name));
-        }catch(Exception exp){System.out.println(exp);}
+            //img = ImageIO.read(new File("images//" + img_name));
+            //blotImg = ImageIO.read(new File("images//" + blot_img_name));
+            java.sql.Blob blobImage = player.connector.getImage(img_name).image;
+            InputStream in = blobImage.getBinaryStream(); 
+            img = ImageIO.read(in);
+
+            blobImage = player.connector.getImage(blot_img_name).image;
+            in = blobImage.getBinaryStream(); 
+            blotImg = ImageIO.read(in);
+
+        }catch(Exception exp){System.out.println(exp);System.exit(0);}
         
 
     }

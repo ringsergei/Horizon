@@ -43,6 +43,7 @@ class MachineGunBullet{
                 if( isHit==true ){
                     if( (x-7) >= obstacle.x && (x+7)<=(obstacle.width+obstacle.x) && (y+7)>=obstacle.y && (y+7)<=(obstacle.height+obstacle.y) ){
                         isOnField=false;
+                        isHit=false;
                        // sound.obsSound("wall");
                         timerUpdate.stop();
                     }
@@ -59,6 +60,7 @@ class MachineGunBullet{
     public void draw(Graphics g){
         if( x>1950|x<-30|y>1110|y<-30 ){
             isOnField=false;
+            isHit=false;
             timerUpdate.stop();
         }
         else if(isOnField==true){

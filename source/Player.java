@@ -13,11 +13,12 @@ class Player{
     int mouseX=0, mouseY=0;
     public Obstacles[] obstacles;
     public MachineGun[] machineGuns;
+    public DataBaseConnector connector;
     public Hearts heart;
     public Ammunition ammunition;
     public Gun gun;
-    public Gun tommy_gun = new Gun(5, 30, 100, 50, 1, "tommy_gun.png", "Yellowblot.png", new Color(218,101,111), 12, this);
-    public Gun sniper_rifle = new Gun(10, 5, 5000, 0, 5, "sniper_rifle.png", "Yellowblot.png", new Color(250,169,17), 8, this);
+    public Gun tommy_gun;
+    public Gun sniper_rifle;
 
     Timer thingsTimer = new Timer(3000, new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -167,10 +168,13 @@ class Player{
 			}
 		});
 
-    public Player(Obstacles obstacles[], MachineGun machineGuns[]){
-        gun = tommy_gun;
+    public Player(Obstacles obstacles[], MachineGun machineGuns[], DataBaseConnector connector){
+        this.connector = connector;
         this.obstacles = obstacles;
         this.machineGuns = machineGuns;
+        tommy_gun = new Gun(5, 30, 100, 50, 1, "tommy_gun", "Yellowblot", new Color(218,101,111), 12, this);
+        sniper_rifle = new Gun(10, 5, 5000, 0, 5, "sniper_rifle", "Yellowblot", new Color(250,169,17), 8, this);
+        gun = tommy_gun;
         checkHits.start();
         thingsTimer.start();
     }
