@@ -137,6 +137,7 @@ class Bullet{
     public void draw(Graphics g){
         if( x>1950|x<-30|y>1110|y<-30 ){
             isOnField=false;
+            isHit=false;
             timerUpdate.stop();
         }
         else if(isOnField==true){

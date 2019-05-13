@@ -1,4 +1,4 @@
-//java -classpath .;"C:\Program Files\Java\jdk1.8.0_181\lib\mysql-connector-java-8.0.16\mysql-connector-java-8.0.16.jar" main
+//java -classpath .;"C:\Program Files\Java\jdk1.8.0_181\lib\mysql-connector-java-8.0.16\mysql-connector-java-8.0.16.jar" Main
 
 import java.sql.*;
 import java.util.ArrayList;

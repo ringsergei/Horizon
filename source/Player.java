@@ -43,7 +43,7 @@ class Player{
               if( shot.isHit ){
                   for( MachineGun machineGun: machineGuns ){
                     if( machineGun!=null ){
-                        if( machineGun.hp>0 ){
+                        if( machineGun.hp>0){
                             if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
                                 if( tommy_gun.damage>machineGun.hp )machineGun.hp=0;
                                 else machineGun.hp -= tommy_gun.damage;
@@ -60,6 +60,7 @@ class Player{
                         else if( machineGun.hp==0 ){
                             if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
                                 shot.isOnField=false;
+                                shot.isHit=false;
                             }
                         }
                     }
@@ -88,6 +89,7 @@ class Player{
                         }
                         else if( machineGun.hp==0 ){
                             if(shot.x <= machineGun.x+40 && shot.x >= machineGun.x && shot.y >= machineGun.y && shot.y <= machineGun.y+40){
+                                shot.isHit=false;
                                 shot.isOnField=false;
                             }
                         }
@@ -211,6 +213,16 @@ class Player{
       g2d.setColor(new Color(0,138,246));
       g2d.fillOval(x, y, 50, 50);
       g2d.setTransform(old);
+      //Scope/
+      AffineTransform scope1 = g2d.getTransform();
+      g2d.rotate(Math.toRadians(rotation+90), mouseX, mouseY);
+      g2d.fillRect(mouseX-gun.scatter-10, mouseY, 10, 20);
+      g2d.setTransform(scope1);
+      AffineTransform scope2 = g2d.getTransform();
+      g2d.rotate(Math.toRadians(rotation+90),mouseX, mouseY);
+      g2d.fillRect(mouseX+gun.scatter, mouseY, 10, 20);
+      g2d.setTransform(scope2);
+      ///
 
     }
 
