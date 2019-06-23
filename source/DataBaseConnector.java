@@ -50,8 +50,8 @@ public class DataBaseConnector{
 
     }
 
-    public MapObject getMap(String mapName){
-        MapObject mapObj = null;
+    public MapModel getMap(String mapName){
+        MapModel mapModel = null;
         
         try{
             String query = "SELECT * FROM `Maps` WHERE Name=" + "\"" + mapName + "\"";
@@ -59,11 +59,11 @@ public class DataBaseConnector{
             ResultSet result = state.executeQuery(query);
 
             if( result.next() ){
-                mapObj = new MapObject(Integer.parseInt(result.getString("ID")), result.getString("Name"), result.getString("Author"), Integer.parseInt(result.getString("Image_ID")), result.getString("Code"));
+                mapModel = new MapModel(Integer.parseInt(result.getString("ID")), result.getString("Name"), result.getString("Author"), Integer.parseInt(result.getString("Image_ID")), result.getString("Code"));
             }
         }catch(Exception exp){System.out.println(exp);}
 
-        return mapObj;
+        return mapModel;
 
     }
 
@@ -71,8 +71,8 @@ public class DataBaseConnector{
 
     }
 
-    public ImageObject getImage(String imageName){
-        ImageObject imageObj = null;
+    public ImageModel getImage(String imageName){
+        ImageModel imageModel = null;
         
         try{
             String query = "SELECT * FROM `Images` WHERE Name=" + "\"" + imageName + "\"";
@@ -80,11 +80,11 @@ public class DataBaseConnector{
             ResultSet result = state.executeQuery(query);
 
             if( result.next() ){
-                imageObj = new ImageObject(result.getInt("ID"), result.getString("Type"), result.getBlob("Image"), result.getString("Size"), result.getString("Name"));
+                imageModel = new ImageModel(result.getInt("ID"), result.getString("Type"), result.getBlob("Image"), result.getString("Size"), result.getString("Name"));
             }
         }catch(Exception exp){System.out.println(exp);}
 
-        return imageObj;
+        return imageModel;
     }
 
     public void connectClose(){
@@ -96,14 +96,14 @@ public class DataBaseConnector{
 
 }
 
-class MapObject{
+class MapModel{
     public int id;
     public String name;
     public String author;
     public int image_id;
     public String code;
 
-    public MapObject(int id, String name, String author, int image_id, String code){
+    public MapModel(int id, String name, String author, int image_id, String code){
         this.id = id;
         this.name = name;
         this.author = author;
@@ -112,14 +112,14 @@ class MapObject{
     }
 }
 
-class ImageObject{
+class ImageModel{
     public int id;
     public String type;
     public java.sql.Blob image;
     public String size;
     public String name;
 
-    public ImageObject(int id, String type, java.sql.Blob image, String size, String name){
+    public ImageModel(int id, String type, java.sql.Blob image, String size, String name){
         this.id = id;
         this.type = type;
         this.image = image;
